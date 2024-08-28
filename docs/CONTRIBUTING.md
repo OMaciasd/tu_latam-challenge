@@ -1,20 +1,19 @@
-# Contribution Guide
+# **Contribution Guide**
 
-## Prerequisites
+## **Prerequisites**
 
-- pip
-- Python
-- Docker (optional)
+- **Docker Desktop**: For containerized deployments.
+- **GitHub Account**: For installing Python dependencies.
 
-## Setting Up the Development Environment
+## **Setting Up the Development Environment**
 
-### 🔄Clone the repo to your local infra
+### 🔄**Clone the repo to your local infra**
 
 ``` bash
 git clone --branch develop --recursive --depth=1 https://github.com/OMaciasd/tu_latam-challenge.git; cd .\tu_latam-challenge\
 ```
 
-### 🚀Run the App
+### 🚀**Run the App**
 
 #### ⚙️**Install Dependencies**
 
@@ -22,19 +21,19 @@ git clone --branch develop --recursive --depth=1 https://github.com/OMaciasd/tu_
 pip install -r requirements.txt
 ```
 
-### Setting Environment Variables
+### **Setting Environment Variables**
 
 - If necessary, explain how to configure environment variables to make the project work correctly.
 
-## Workflow
+## **Workflow**
 
-### Creating Branches
+### **Creating Branches**
 
 - The solution is organized using the **GitFlow** workflow, which facilitates structured development and integration.
 
 ![alt text](../assets/images/git.png)
 
-### Commit Messages
+### **Commit Messages**
 
 - Follow these conventions for commit messages:
 
@@ -42,17 +41,17 @@ pip install -r requirements.txt
 
   - Include the issue number if applicable.
 
-### Pull Requests
+### **Pull Requests**
 
 - Submit a Pull Request with a description of the changes and link to any related issues.
 
-## Code Standards
+## **Code Standards**
 
 - Follow the PEP 8 style guide for Python code.
 
-## 🔍 Testing
+## 🔍**Testing**
 
-### ✅Test Coverage
+### ✅**Test Coverage**
 
 ``` python
 pytest --cov=src --cov-report=html
@@ -62,7 +61,7 @@ pytest --cov=src --cov-report=html
 
 - **`--cov-report=html`** generates an HTML report, which is saved in the htmlcov folder.
 
-### ✅Load Testing
+### ✅**Load Testing**
 
 - **Tools Used**
 
@@ -84,10 +83,10 @@ locust -f locustfile.py
 
   - Errors: [Details on any errors encountered during testing]
 
-## Code Review
+## **Code Review**
 
 - Pull requests are reviewed by project maintainers. Ensure your code meets the project's standards and passes all tests.
 
-## Documentation Contributions
+## **Documentation Contributions**
 
 - For contributing to documentation, follow the same branch and PR process as code contributions.

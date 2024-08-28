@@ -90,11 +90,19 @@ During the implementation of the solution, the following assumptions were made:
 
 - **Data Format**: It is assumed that the input data follows the format specified in the challenge statement. Any variations in format may require additional adjustments.
 
-- **Execution Environment**: The development was done under the assumption that the execution environment has Python [3.12.4] and the necessary libraries installed. Specific details about the environment are outlined below.
+- **Execution Environment**: The development was done under the assumption that the execution environment has Python **[3.12.4]** and the necessary libraries installed. Specific details about the environment are outlined below.
 
-- **Dependencies**: The project depends on certain libraries specified in the `requirements.txt` file. It is assumed that these libraries are available in the specified versions.
+- **Dependencies**: The project depends on certain libraries specified in the **`requirements.txt`** file. It is assumed that these libraries are available in the specified versions.
 
-### 🖥️Run the Code
+## 📤 Evidence of the Request
+
+- To demonstrate that the POST request to the endpoint was successfully made, a Python script **`api.py`** was executed to send the specified data. Below is the output from the request:
+
+![alt text][json]
+
+- This snapshot demonstrates how to send a POST request to the endpoint and verify the response. The response confirms that the request was received and processed successfully.
+
+## 🖥️Run the Code
 
 ``` python
 python src/main.py
@@ -155,25 +163,38 @@ While the current solution addresses the core functionalities required, there ar
   - Regular security audits and vulnerability assessments.
   - Implementing access controls and user authentication mechanisms.
 
+## 🔒Managing Sensitive Files
+
+### `.env` Files
+
+- **Description**: The **`.env`** file contains essential environment variables for project configuration, such as credentials and API keys.
+- **Setup**: Create a **`.env`** file in the root of the project using the **`.env-example.txt`** file as a reference. Fill it with your own variables.
+- **Important**: The **`.env`** file is listed in **`.gitignore`** to prevent it from being uploaded to the repository.
+
+### JSON Files
+
+- **Description**: The **`data.json`** file may contain environment-specific or sensitive data.
+- **Example File**: Use the **`json-example.txt`** file as a reference to understand the structure of the JSON file. Do not include sensitive data in the repository.
+
 ## 💬**Comments**
 
 The current implementation provides a functional system for data ingestion, storage, and exposure. These future improvements are aimed at enhancing the system's performance, reliability, and maintainability. Feedback and suggestions for further enhancements are welcome.
 
 >[!WARNING]
-
-- Some features may require additional configuration based on your environment.
-
->[!NOTE]
-
-- Ensure you have the latest version of dependencies by running:
-
-```bash
-  pip install --upgrade -r requirements.txt
-```
-
+>
+>- Some features may require additional configuration based on your environment.
+>
 >[!IMPORTANT]
-
-- For detailed documentation and setup instructions, refer to the docs/ directory.
+>
+> **Dependency Updates**: Keep dependencies up to date by running:
+>
+> ```bash
+> pip install --upgrade -r requirements.txt
+> ```
+>
+>[!NOTE]
+>
+>- For detailed documentation and setup instructions, refer to the docs/ directory.
 
 ## 🎉 Acknowledgments and Credits
 
@@ -188,3 +209,5 @@ The current implementation provides a functional system for data ingestion, stor
 ## ⏳Contact
 
 Thank you for considering my submission. If you have any questions or need further clarification, please feel free to reach out to me via [email](mailto:omaciasnarvaez@gmail.com).
+
+[json]: assets/images/json.png
