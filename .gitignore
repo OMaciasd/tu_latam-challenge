@@ -1,5 +1,7 @@
 *.j*
 *env
 *my*
-*.bkp
+*bk*
 *ter*
+
+!*g

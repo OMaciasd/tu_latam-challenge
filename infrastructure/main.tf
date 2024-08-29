@@ -43,10 +43,16 @@ resource "docker_container" "postgres" {
 }
 
 resource "docker_image" "api" {
-  name = "flask-api:latest"
+  name = "flask-api"
   build {
-    context    = "${path.module}/src"
-    dockerfile = "${path.module}/src/Dockerfile"
+    context = "${path.root}/src"
+    tag     = ["flask-api:latest"]
+    label = {
+      author : "omaciasd"
+    }
+  }
+  triggers = {
+    dir_sha1 = sha1(join("", [for f in fileset(path.module, "src/*") : filesha1(f)]))
   }
 }
 
@@ -55,8 +61,8 @@ resource "docker_container" "api" {
   image = docker_image.api.name
 
   ports {
-    internal = 5000
-    external = 5000
+    internal = 50010
+    external = 50010
   }
 
   depends_on = [docker_container.postgres]

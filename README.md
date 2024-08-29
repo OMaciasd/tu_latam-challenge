@@ -1,5 +1,19 @@
 # Challenge DevSecOps/SRE
 
+## Contents
+
+- 📝[Project Description](#description)
+- 🧩[Assumptions](#assumptions)
+- 📥[Evidence of the Request](#evidence-of-the-request)
+- 🖥️[Architecture](#architecture)
+- 🚨[How to Contribute](#how-to-contribute)
+- 🔧[Future Improvements](#future-improvements)
+- 🔒[Managing Sensitive Files](#managing-sensitive-files)
+- 💬[Comments](#comments)
+- 🎉[Acknowledgments and Credits](#acknowledgments-and-credits)
+- 📜[License](#license)
+- ⏳[Contact](#contact)
+
 ## 📝Description
 
 This project addresses the challenge of creating a system for ingesting, storing, and exposing data, specifically designed for advanced analytics. The system is developed to:
@@ -24,7 +38,9 @@ To achieve these goals, the project uses:
 
   - **Tool Selection**
 
-    - **GitHub Actions**: Since this project is hosted on GitHub, is an excellent choice for implementing a pipeline. It is a native tool that allows workflow automation directly in the repository, with easy integration for testing, deployment, and other processes.
+    - **GitHub Actions**: Since this project is hosted on GitHub, is an excellent choice for implementing a pipeline.
+
+      - It is a native tool that allows workflow automation directly in the repository, with easy integration for testing, deployment, and other processes.
 
   - **Pipeline Configuration**
 
@@ -38,7 +54,9 @@ To achieve these goals, the project uses:
 
       2. **Unit Testing**:
 
-         - **Pytest**: Ensure all tests pass. This can be done in a specific virtual environment to ensure consistency.
+         - **Pytest**: Ensure all tests pass.
+
+           - This can be done in a specific virtual environment to ensure consistency.
 
       3. **Test Coverage**:
 
@@ -46,7 +64,7 @@ To achieve these goals, the project uses:
 
       4. **Build**:
 
-         - **Docker Build**: Build the Docker image of the application to ensure that all changes can be packaged correctly.
+         - **Docker**: Image of the application to ensure that all changes can be packaged correctly.
 
     - **Continuous Deployment (CD)**: Is triggered automatically after the CI tests pass and can include the following steps:
 
@@ -62,9 +80,7 @@ To achieve these goals, the project uses:
 
          - Once approved, deploy the new version to production. Depending on the infrastructure, this could include:
 
-            - **Heroku**: If the application is deployed, use **GitHub Actions** to automatically push the changes.
-
-            - **AWS / GCP / Azure**: Use **Terraform** or **Ansible** to manage the infrastructure and perform the deployment.
+            - **Docker Desktop**: Local environment.
 
             - **Kubernetes**: Apply manifests to update the pods and services in production.
 
@@ -94,7 +110,7 @@ During the implementation of the solution, the following assumptions were made:
 
 - **Dependencies**: The project depends on certain libraries specified in the **`requirements.txt`** file. It is assumed that these libraries are available in the specified versions.
 
-## 📤 Evidence of the Request
+## 📤Evidence of the Request
 
 - To demonstrate that the POST request to the endpoint was successfully made, a Python script **`api.py`** was executed to send the specified data. Below is the output from the request:
 
@@ -102,17 +118,11 @@ During the implementation of the solution, the following assumptions were made:
 
 - This snapshot demonstrates how to send a POST request to the endpoint and verify the response. The response confirms that the request was received and processed successfully.
 
-## 🖥️Run the Code
-
-``` python
-python src/main.py
-```
-
-## Architecture
+## 🖥️Architecture
 
 For detailed information on the system's architecture, including design decisions and component interactions, refer to the [Architecture Guide](docs/ARCHITECTURE.md).
 
-## Contributing
+## 🖥️How to Contribute
 
 To contribute to this project, please check out our [Contribution Guide](docs/CONTRIBUTING.md) for instructions on setting up your development environment and the process for submitting contributions.
 
@@ -176,7 +186,7 @@ While the current solution addresses the core functionalities required, there ar
 - **Description**: The **`data.json`** file may contain environment-specific or sensitive data.
 - **Example File**: Use the **`json-example.txt`** file as a reference to understand the structure of the JSON file. Do not include sensitive data in the repository.
 
-## 💬**Comments**
+## 💬Comments
 
 The current implementation provides a functional system for data ingestion, storage, and exposure. These future improvements are aimed at enhancing the system's performance, reliability, and maintainability. Feedback and suggestions for further enhancements are welcome.
 
@@ -196,13 +206,13 @@ The current implementation provides a functional system for data ingestion, stor
 >
 >- For detailed documentation and setup instructions, refer to the docs/ directory.
 
-## 🎉 Acknowledgments and Credits
+## 🎉Acknowledgments and Credits
 
 - **Libraries and Tools**: Thanks to Library Name and Tool Name for their excellent documentation and support.
 
 - **Tutorials and Guides**: Special thanks to Tutorial/Guide Name for providing a valuable resource during development.
 
-## 📜 License
+## 📜License
 
 - This project is licensed under the MIT License. See the LICENSE file for more details.
 
