@@ -4,6 +4,5 @@ sqlalchemy
 flask_sqlalchemy
 pytest==8.3.2
 flake8==7.1.1
-
-pytest-cov
+pytest-cov==5.0.0
 
