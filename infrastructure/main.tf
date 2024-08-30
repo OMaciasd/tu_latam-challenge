@@ -1,25 +1,5 @@
-resource "docker_image" "rabbitmq" {
-  name = "rabbitmq:management"
-}
-
-resource "docker_container" "rabbitmq" {
-  name  = "rabbitmq"
-  image = docker_image.rabbitmq.name
-
-  ports {
-    internal = 5672
-    external = 5672
-  }
-
-  ports {
-    internal = 15672
-    external = 15672
-  }
-
-  env = [
-    "RABBITMQ_DEFAULT_USER=user",
-    "RABBITMQ_DEFAULT_PASS=password"
-  ]
+resource "docker_network" "my_network" {
+  name = "my_network"
 }
 
 resource "docker_image" "postgres" {
@@ -40,6 +20,10 @@ resource "docker_container" "postgres" {
     "POSTGRES_PASSWORD=mypassword",
     "POSTGRES_DB=mydatabase"
   ]
+
+  networks_advanced {
+    name = docker_network.my_network.name
+  }
 }
 
 resource "docker_image" "api" {
@@ -63,6 +47,10 @@ resource "docker_container" "api" {
   ports {
     internal = 50010
     external = 50010
+  }
+
+  networks_advanced {
+    name = docker_network.my_network.name
   }
 
   depends_on = [docker_container.postgres]

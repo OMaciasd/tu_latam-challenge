@@ -8,6 +8,8 @@ RUN pip install -r requirements-dev.txt
 
 EXPOSE 50010
 
+ENV FLASK_APP=app.app
+
 CMD ["flask", "run", "--host=0.0.0.0", "--port=50010"]
 
 LABEL Name="WebApp" \

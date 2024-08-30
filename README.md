@@ -1,106 +1,138 @@
-# Challenge DevSecOps/SRE
+# **Challenge DevSecOps/SRE**
 
-## Contents
+## **Contents**
 
-- 📝[Project Description](#description)
-- 🧩[Assumptions](#assumptions)
-- 📥[Evidence of the Request](#evidence-of-the-request)
-- 🖥️[Architecture](#architecture)
-- 🚨[How to Contribute](#how-to-contribute)
-- 🔧[Future Improvements](#future-improvements)
-- 🔒[Managing Sensitive Files](#managing-sensitive-files)
-- 💬[Comments](#comments)
-- 🎉[Acknowledgments and Credits](#acknowledgments-and-credits)
-- 📜[License](#license)
-- ⏳[Contact](#contact)
+- 📥[**Post Repo in API**](#evidence-of-the-request)
+- 📝[**Introduction**](#introduction)
+- 🌐[**Ingest, Store, and Expose Data Overview**](#general-objectives)
+- 🚀[**Deploy the HTTP API**](#guide-to-configure-and-deploy-the-http-api)
+- 🧪[**Integration Tests**](#integration-tests)
+- 🖥️[**Architecture**](#architecture)
+- 🚨[**How to Contribute**](#how-to-contribute)
+- 🧩[**Assumptions**](#assumptions)
+- 🔧[**Future Improvements**](#future-improvements)
+- 🎉[**Acknowledgments, Comments, and Credits**](#acknowledgments,-comments,-and-credits)
+- 📜[**License**](#license)
 
-## 📝Description
+## 📤 **Evidence of the Request**
 
-This project addresses the challenge of creating a system for ingesting, storing, and exposing data, specifically designed for advanced analytics. The system is developed to:
+- To demonstrate that the POST request to the endpoint was successfully made, a Python script **`api.py`** was executed to send the specified data. Below is the output from the request:
 
-1. 📥**Ingest Data**: Utilize a **Pub/Sub** schema to manage and process incoming data messages efficiently. This approach ensures scalable and reliable data ingestion.
+![alt text][json]
 
-2. 🗄️**Store Data**: Implement a **database** optimized for analytical queries to store the ingested data, facilitating complex and performance-efficient data analysis.
+- This snapshot demonstrates how to send a POST request to the endpoint and verify the response. The response confirms that the request was received and processed successfully.
 
-3. 🌐**Expose Data**: Provide an **HTTP endpoint** that serves the stored data upon request, making it accessible for consumption by third parties.
+## 📝 **Introduction**
 
-To achieve these goals, the project uses:
+This project focuses on developing a system for ingesting, storing, and exposing data, specifically designed for advanced analytics. The proposed solution addresses common challenges in managing large volumes of data and provides a scalable and efficient infrastructure.
 
-- **Infrastructure as Code (IaC)**: For defining and deploying infrastructure components, ensuring consistency and repeatability.
+### **Context**
 
-  - **Tools Used:**
+In a data environment that is constantly growing, organizations face the need to efficiently manage large volumes of information for advanced analysis. This challenge arises from the demand for solutions that not only handle real-time data ingestion but also optimize storage and facilitate access to these data for subsequent analysis.
 
-    - **Terraform** was used for deploying cloud infrastructure, allowing for consistent and version-controlled infrastructure across multiple environments.
+**Specific problems addressed:**
 
-    - **Ansible** was employed for server provisioning and configuration management, chosen for its simplicity and ability to automate complex tasks across multiple servers without the need for agents.
+- **Real-Time Ingestion:** The ability to handle and process data as it arrives is crucial for modern applications that require fresh and updated data.
 
-- **CI/CD Implementation**: For automating the deployment process and ensuring that changes are integrated and tested continuously.
+- **Storage Optimization:** With the continuous growth of data, there is a need for a solution that not only stores large volumes of data but also supports fast and efficient queries.
 
-  - **Tool Selection**
+- **Data Access and Exposure:** It is essential that stored data is easily accessible and available for analysis and consumption by third parties in an efficient manner.
 
-    - **GitHub Actions**: Since this project is hosted on GitHub, is an excellent choice for implementing a pipeline.
+## 🌐 **General Objectives**
 
-      - It is a native tool that allows workflow automation directly in the repository, with easy integration for testing, deployment, and other processes.
+**The goals of this project are:**
 
-  - **Pipeline Configuration**
+1. 📥**Data Ingestion:** Develop a robust system that uses a Pub/Sub schema to efficiently manage and process incoming data messages, ensuring scalable and reliable ingestion.
 
-    - **Continuous Integration (CI)**: Is configured to automatically run every time a commit is made to the develop and master branches. The main steps are:
+2. 🗄️**Data Storage:** Implement a database optimized for analytical queries that allows for efficient storage of large volumes of data and supports complex analysis.
 
-      1. **Code Verification**:
+3. 🌐**Data Exposure:** Provide an HTTP endpoint that serves the stored data on demand, facilitating access by third parties and ensuring smooth integration with other systems.
 
-         - **Linting**: Run a tool like **flake8** to ensure the code adheres to Python style conventions.
+## 🚀 **Guide to Configure and Deploy the HTTP API**
 
-         - **Formatting**: Use **black** to consistently format the code.
+### **Prerequisites**
 
-      2. **Unit Testing**:
+Before you begin, make sure you have the following installed:
 
-         - **Pytest**: Ensure all tests pass.
+- [**Docker**](https://www.docker.com/get-started)
+- [**Docker Compose**](https://docs.docker.com/compose/install/)
+- [**Python**](https://www.python.org/downloads/) (*for running locally without Docker*)
+- [**pip**](https://pip.pypa.io/en/stable/)
 
-           - This can be done in a specific virtual environment to ensure consistency.
+### **Clone the Repository**
 
-      3. **Test Coverage**:
+First, clone the repository to your local machine:
 
-         - **Code Coverage**: Use **pytest-cov** to generate a report and upload it to a service like **Codecov** or **Coveralls** for additional analysis.
+```bash
+git clone https://github.com/OMaciasd/tu_latam-challenge
 
-      4. **Build**:
+cd tu_latam-challenge
 
-         - **Docker**: Image of the application to ensure that all changes can be packaged correctly.
+```
 
-    - **Continuous Deployment (CD)**: Is triggered automatically after the CI tests pass and can include the following steps:
+### **Environment Setup**
 
-      1. **Deployment to Testing Environments**:
+1. **Set Up Environment Variables**
 
-         - Deploy the application to a staging environment using **Docker Compose** or **Kubernetes**. This allows validations in a controlled environment before moving the changes to production.
+   - Create a `**.env**` file in the project root using the `**.env-example**` file as a reference:
 
-      2. **Code Review**:
+     ```bash
+     cp .env-example .env
+     ```
 
-         - Configure a manual or automated review to have an administrator approve changes before deploying to production.
+   - Fill in the `**.env file**` with your specific credentials and configurations.
 
-      3. **Deployment to Production**:
+2. **Install Dependencies**:
 
-         - Once approved, deploy the new version to production. Depending on the infrastructure, this could include:
+- If you're using Docker, this step is handled within the container. If you prefer to run the project locally:
 
-            - **Docker Desktop**: Local environment.
+  ```bash
+  pip install -r requirements.txt
 
-            - **Kubernetes**: Apply manifests to update the pods and services in production.
+  ```
 
-      4. **Notifications**:
+## **Running the Project**
 
-         - Configure Slack or email notifications to inform the team of the success or failure of the deployment.
+**Using Docker**:
 
-  - **Continuous Improvement**: Can be improved in the future to include:
+*This will build and start all the services defined in the docker-compose.yml file.*
 
-    - **Integration and E2E Testing**: Add integration and end-to-end tests to ensure all parts of the system work well together.
+  ```bash
+  docker-compose up --build
+  ```
 
-    - **Automated Rollbacks**: Implement automatic rollback mechanisms in case of failures during production deployment.
+**Without Docker**:
 
-    - **Security**: Include security scanners like Bandit to identify vulnerabilities in the code before deployment.
+1. Run the Server.
 
-- **Quality Testing, Monitoring, and Alerting**: To maintain the system’s health and performance, incorporating integration tests, and real-time monitoring.
+    ```bash
+    python app.py
 
-  - and alerting mechanisms using **Prometheus / Grafana** for monitoring and Alertmanager for notifying on critical issues.
+    ```
 
-## 🧩Assumptions
+2. Access the API.
+
+The API will be [**available**](http://localhost:5000).
+
+  ![Python](docs/assets/images/python.png)
+
+### **Verify the Deployment**
+
+To ensure everything is working correctly, make a GET request to the main endpoint:
+
+  ```bash
+  curl http://localhost:5000
+  ```
+
+You should receive a response indicating that the API is up and running.
+
+### **Production Deployment**
+
+- For deployment in a production environment, refer to the deployment guide specific to your cloud provider or server, such as AWS, Azure, GCP, etc.
+
+- Ensure to follow best practices for security and scalability.
+
+## 🧩 **Project Structure**
 
 During the implementation of the solution, the following assumptions were made:
 
@@ -110,25 +142,62 @@ During the implementation of the solution, the following assumptions were made:
 
 - **Dependencies**: The project depends on certain libraries specified in the **`requirements.txt`** file. It is assumed that these libraries are available in the specified versions.
 
-## 📤Evidence of the Request
+## 🚀 CI/CD Flow
 
-- To demonstrate that the POST request to the endpoint was successfully made, a Python script **`api.py`** was executed to send the specified data. Below is the output from the request:
+The CI/CD pipeline for this project has been implemented using GitHub Actions to automate the continuous integration and deployment process of the API to the cloud. Below is a basic description of the flow:
 
-![alt text][json]
+1. **Continuous Integration (CI):**
 
-- This snapshot demonstrates how to send a POST request to the endpoint and verify the response. The response confirms that the request was received and processed successfully.
+   - Every time a commit is made to the `develop` or `master` branches, the CI pipeline is triggered.
 
-## 🖥️Architecture
+   - The pipeline performs the following actions:
+
+     - **Code Linting:** A static code analysis is performed using tools like `flake8` to ensure the code adheres to Python style conventions.
+
+     - **Code Formatting:** The `black` formatter is applied to maintain consistency in code style.
+
+     - **Unit Testing:** Unit tests are run using `pytest` to verify that the changes do not break existing functionality.
+
+     - **Coverage Report Generation:** Code coverage reports are generated using `pytest-cov` and uploaded to services like Codecov or Coveralls.
+
+2. **Continuous Deployment (CD):**
+
+   - Once the CI tests pass successfully, the deployment process begins:
+
+     - **Deployment to Staging Environment:** The application is first deployed to a staging environment using Docker Compose or Kubernetes.
+
+     - **Code Review:** A manual or automated review can be configured to approve changes before deploying to production.
+
+     - **Deployment to Production:** After approval, the new version is deployed to production using Kubernetes or another deployment service.
+
+3. **Notifications:**
+
+   - Notifications email are configured to inform the team about the deployment status.
+
+## 🧪 Integration Tests
+
+### Description of Integration Tests
+Integration tests have been implemented to ensure that the different components of the system function correctly when combined. These tests verify the interaction between the data ingestion, storage, and exposure services, ensuring the system operates as expected under normal and load conditions.
+
+The integration tests include:
+
+- **Data Flow Tests:** Verify that the data ingested through the Pub/Sub system is correctly stored in the database and exposed via the HTTP endpoint.
+
+- **Load and Performance Tests:** Assess how the system handles a significant volume of messages and requests, ensuring that the system does not degrade under high load conditions.
+
+- **Error and Recovery Tests:** Simulate failures in specific components to ensure the system can handle errors and recover appropriately without losing data or compromising integrity.
+
+## 🖥️ **Architecture**
 
 For detailed information on the system's architecture, including design decisions and component interactions, refer to the [Architecture Guide](docs/ARCHITECTURE.md).
 
-## 🖥️How to Contribute
+## 🚨 **How to Contribute**
 
 To contribute to this project, please check out our [Contribution Guide](docs/CONTRIBUTING.md) for instructions on setting up your development environment and the process for submitting contributions.
 
 Describe how to contribute to the project’s documentation
 
-## 🔧**Future Improvements**
+## 🔧 **Future Improvements**
 
 While the current solution addresses the core functionalities required, there are several areas where enhancements could be made to further optimize and extend the system:
 
@@ -173,27 +242,23 @@ While the current solution addresses the core functionalities required, there ar
   - Regular security audits and vulnerability assessments.
   - Implementing access controls and user authentication mechanisms.
 
-## 🔒Managing Sensitive Files
+## 🎉 **Acknowledgments, Comments, and Credits**
 
-### `.env` Files
+This project is the result of collective effort and contributions from various sources. I would like to acknowledge the following:
 
-- **Description**: The **`.env`** file contains essential environment variables for project configuration, such as credentials and API keys.
-- **Setup**: Create a **`.env`** file in the root of the project using the **`.env-example.txt`** file as a reference. Fill it with your own variables.
-- **Important**: The **`.env`** file is listed in **`.gitignore`** to prevent it from being uploaded to the repository.
+- **Libraries and Tools**: A special thanks to the developers and maintainers of the tools and libraries used in this project, such as [Library Name] and [Tool Name], for their excellent documentation and support.
 
-### JSON Files
+- **Tutorials and Guides**: I am grateful for the valuable resources provided by [Tutorial/Guide Name], which were instrumental in the development process.
 
-- **Description**: The **`data.json`** file may contain environment-specific or sensitive data.
-- **Example File**: Use the **`json-example.txt`** file as a reference to understand the structure of the JSON file. Do not include sensitive data in the repository.
+- **Comments and Feedback**: The current implementation provides a functional system for data ingestion, storage, and exposure. The future improvements mentioned in this README aim to enhance the system's performance, reliability, and maintainability. Your feedback and suggestions for further enhancements are always welcome.
 
-## 💬Comments
-
-The current implementation provides a functional system for data ingestion, storage, and exposure. These future improvements are aimed at enhancing the system's performance, reliability, and maintainability. Feedback and suggestions for further enhancements are welcome.
+>[!NOTE]
+>  Please keep in mind:
 
 >[!WARNING]
 >
 >- Some features may require additional configuration based on your environment.
->
+
 >[!IMPORTANT]
 >
 > **Dependency Updates**: Keep dependencies up to date by running:
@@ -201,23 +266,11 @@ The current implementation provides a functional system for data ingestion, stor
 > ```bash
 > pip install --upgrade -r requirements.txt
 > ```
->
->[!NOTE]
->
->- For detailed documentation and setup instructions, refer to the docs/ directory.
-
-## 🎉Acknowledgments and Credits
-
-- **Libraries and Tools**: Thanks to Library Name and Tool Name for their excellent documentation and support.
-
-- **Tutorials and Guides**: Special thanks to Tutorial/Guide Name for providing a valuable resource during development.
-
-## 📜License
-
-- This project is licensed under the MIT License. See the LICENSE file for more details.
-
-## ⏳Contact
 
 Thank you for considering my submission. If you have any questions or need further clarification, please feel free to reach out to me via [email](mailto:omaciasnarvaez@gmail.com).
 
-[json]: assets/images/json.png
+## 📜 **License**
+
+- This project is licensed under the MIT License. See the LICENSE file for more details.
+
+[json]: docs/assets/images/json.png

@@ -8,12 +8,14 @@
 - ⚠️[Critical Points and Scaling](#critical-points-and-scaling)
 - 📈[Data Flow](#data-flow)
 - 🔄[Overall Flow](#overall-flow)
-- 🚀[CI/CD Pipeline with GitHub Actions](#ci/cd-pipeline-with-github-actions)
+- 🚀[CI/CD Pipeline with GitHub Actions](#ci-cd-pipeline-with-github-actions)
 - 🎯[Overall Goals and Benefits](#overall-goals-and-benefits)
+- 📊[Critical Metrics for End-to-End System Health and Performanc](#critical-metrics-for-end-to-end-system-health-and-performance)
 - 📈[Monitoring and Logging](#monitoring-and-logging)
 - 🚧[Error Handling and Rollback](#error-handling-and-rollback)
 - ➡️[Security](#security)
 - ✏️[Additional Considerations](#additional-considerations)
+
 
 ## ⚙️**System Overview**
 
@@ -27,7 +29,7 @@
 
 ## 📊**Diagram**
 
-![Architecture Diagram](../assets/images/diagram.png)
+![Architecture Diagram](./assets/images/diagram.png)
 
 - **Scalability to 50 Systems**
 
@@ -59,9 +61,9 @@
 
   - However, I encountered persistent compatibility issues between **Terraform** and **Docker Desktop**, which hindered the effective setup and management of the infrastructure.
 
-![Terraform](../assets/images/terraform.png)
+![Terraform](./assets/images/terraform.png)
 
-![Scout](../assets/images/scout.png)
+![Scout](./assets/images/scout.png)
 
 - **Workaround with Vagrant**: To address these issues, I transitioned to using a based setup on a **Ubuntu** environment.
 
@@ -73,7 +75,7 @@
 
     - **CI/CD Pipeline Preparation**: By using, I could still develop and test my infrastructure as code locally.
 
-    	- This setup ensured that once cloud access is available or feasible, the transition from local development to a cloud environment via pipelines with **GitHub Actions** would be smoother.
+      - This setup ensured that once cloud access is available or feasible, the transition from local development to a cloud environment via pipelines with **GitHub Actions** would be smoother.
 
     - **Future Integration**: The based local setup serves as a temporary measure, allowing me to refine and validate the infrastructure code. Once cloud access is possible, I plan to migrate the tested configurations to a cloud environment for final deployment and scaling.
 
@@ -87,8 +89,6 @@
 
       - The use of **Flask** for API development provides flexibility and ease of integration with various third-party applications and tools, enabling customized and scalable solutions.
 
-		![Python](../assets/images/python.png)
-
       - This API provides standard HTTP methods for interacting with the data, making it easy for third-party applications and users to access and visualize the data using tools like **ELK**, **Grafana**, **Prometheus**, and **Loki**.
 
   3. **Infrastructure Management with Terraform**:
@@ -101,13 +101,13 @@
 
       - **Image Build**: The application is containerized, with a Dockerfile that defines the environment and dependencies.
 
-		![Hub](../assets/images/hub.png)
+  ![Hub](./assets/images/hub.png)
 
       - **Environment Variables**: Keys are passed to the Docker container at runtime, based on Terraform outputs.
 
       - **Deployment Process**: The container is deployed to the target environment, ensuring consistency across development and production environments.
 
-		![Docker](../assets/images/docker_desktop.png)
+  ![Docker](./assets/images/docker_desktop.png)
 
 ## ⚠️**Critical Points and Scaling**
 
@@ -168,33 +168,33 @@
 
   1. **Data Ingestion via Pub/Sub**:
 
-    - **Logstash**: Data is initially ingested through the Pub/Sub layer.
+  - **Logstash**: Data is initially ingested through the Pub/Sub layer.
 
-       - It is published to specific topics in *RabbitMQ* where it is available for processing.
+    - It is published to specific topics in *RabbitMQ* where it is available for processing.
 
-    - **Data Integrity**: Messages are ensured to be processed in the order they are received, and duplicate messages are handled through idempotent processing to maintain data consistency.
+  - **Data Integrity**: Messages are ensured to be processed in the order they are received, and duplicate messages are handled through idempotent processing to maintain data consistency.
 
   2. **Data Processing and Storage**:
 
      - **Data Processing**: After ingestion, the data is processed as needed before storage. This may include transformations or aggregations.
 
-	- **Database Storage**: The processed data is stored in Postgres.
+  - **Database Storage**: The processed data is stored in Postgres.
 
-    	- The database uses ACID (Atomicity, Consistency, Isolation, Durability) properties to ensure data integrity and consistency.
+  - The database uses ACID (Atomicity, Consistency, Isolation, Durability) properties to ensure data integrity and consistency.
 
-		- This includes:
+    - This includes:
 
-			- **Transactions**: Database transactions are used to group multiple operations into a single unit of work.
+      - **Transactions**: Database transactions are used to group multiple operations into a single unit of work.
 
-    			- If any part of the transaction fails, the entire transaction is rolled back, ensuring that the database remains in a consistent state.
+    - If any part of the transaction fails, the entire transaction is rolled back, ensuring that the database remains in a consistent state.
 
-			- **Consistency Checks**: Regular consistency checks and validations are performed to detect and correct any anomalies in the data.
+      - **Consistency Checks**: Regular consistency checks and validations are performed to detect and correct any anomalies in the data.
 
   3. **Data Exposure through API**:
 
      - **API Access**: The stored data is exposed via a RESTful API developed with Flask.
 
-     	 - The API provides standard HTTP methods for data retrieval.
+       - The API provides standard HTTP methods for data retrieval.
 
      - **Data Integrity**: Data is served directly from the database without intermediate modifications, ensuring that the data presented through the API reflects the most recent and accurate state of the database.
 
@@ -204,15 +204,15 @@
 
        - Automated alerts are triggered for any data inconsistencies or processing issues.
 
-	- **Redundancy**: Data redundancy and backup mechanisms are in place to prevent data loss.
+  - **Redundancy**: Data redundancy and backup mechanisms are in place to prevent data loss.
 
-    	- Regular backups are taken, and failover strategies are implemented to ensure data availability.
+  - Regular backups are taken, and failover strategies are implemented to ensure data availability.
 
-### **Integration Testing**
+- **Integration Testing**
 
-- **Component Integration**: Explain how integration testing is conducted between different system components, from data ingestion to data exposure.
+  - **Component Integration**: Explain how integration testing is conducted between different system components, from data ingestion to data exposure.
 
-- **Data Flow Validation**: Describe methods to validate that data flows correctly and reliably between components.
+  - **Data Flow Validation**: Describe methods to validate that data flows correctly and reliably between components.
 
 ## 🔄**Overall Flow**
 
@@ -236,7 +236,7 @@
    - **Grafana**, **Prometheus**, and **Loki** are used to monitor the health and performance of the system.
    - Alerts are configured to notify stakeholders of any critical issues or anomalies.
 
-## 🚀**CI/CD Pipeline with GitHub Actions**
+## 🚀**CI-CD Pipeline with GitHub Actions**
 
 1. **Code Checkout**:
    - **Action**: The pipeline checks out the latest code from the GitHub repository.
@@ -286,7 +286,7 @@
 
 ## **Critical Metrics for End-to-End System Health and Performance**
 
-  - In addition to basic metrics like CPU, RAM, and DISK USAGE, it is crucial to monitor the following metrics to understand the end-to-end health and performance of the system:
+- In addition to basic metrics like CPU, RAM, and DISK USAGE, it is crucial to monitor the following metrics to understand the end-to-end health and performance of the system:
 
     1. **Latency**
 
@@ -308,66 +308,66 @@
          - **Importance**: Low throughput can indicate performance issues like resource saturation and affects the system's ability to handle high traffic volumes.
          - **Monitoring**: Monitor throughput at various points in the system to identify bottlenecks and ensure the system can handle expected traffic loads.
 
-  - **Scaling**
+- **Scaling**
 
-     - To ensure the system can scale to 50 or more systems, consider the following strategies:
+  - To ensure the system can scale to 50 or more systems, consider the following strategies:
 
-        -  **Modular Design**
+    - **Modular Design**
 
-            - **Description**: Break the system into modular components that can be scaled independently. Components should be loosely coupled to allow for independent development, deployment, and scaling.
+      - **Description**: Break the system into modular components that can be scaled independently. Components should be loosely coupled to allow for independent development, deployment, and scaling.
 
-            - **Use**: Implement microservices to handle different functions, such as authentication, payment processing, and user management.
+      - **Use**: Implement microservices to handle different functions, such as authentication, payment processing, and user management.
 
-  - **Containerization and Orchestration**
+- **Containerization and Orchestration**
 
-    - **Description**: Use containers (e.g., Docker) to package services and applications, facilitating deployment and scaling.
+  - **Description**: Use containers (e.g., Docker) to package services and applications, facilitating deployment and scaling.
 
-    - **Orchestration**: Utilize orchestration tools like Kubernetes to manage and automatically scale containers based on demand.
+  - **Orchestration**: Utilize orchestration tools like Kubernetes to manage and automatically scale containers based on demand.
 
-    - **Benefits**: Allows for rapid service replication and greater flexibility in adjusting resources.
+  - **Benefits**: Allows for rapid service replication and greater flexibility in adjusting resources.
 
-  - **Load Balancing Strategies**
+- **Load Balancing Strategies**
 
-     - To effectively distribute traffic and improve system reliability:
+  - To effectively distribute traffic and improve system reliability:
 
-       - **Round Rob**in
-       - **Description**: Distributes requests sequentially acrossavailable servers.
+    - **Round Rob**in
+    - **Description**: Distributes requests sequentially acrossavailable servers.
 
-       - **Use**: Suitable for systems with uniform load distribution.
+    - **Use**: Suitable for systems with uniform load distribution.
 
-  - **Least Connections**
+- **Least Connections**
 
-     - **Description**: Routes new requests to the server with the fewest active connections.
+  - **Description**: Routes new requests to the server with the fewest active connections.
 
-     - **Use**: Ideal for systems with varying request processing times.
+  - **Use**: Ideal for systems with varying request processing times.
 
-  - **IP Hash**
+- **IP Hash**
 
-    - **Description**: Routes requests based on a hash of the client’s IP address.
+  - **Description**: Routes requests based on a hash of the client’s IP address.
 
-    - **Use**: Maintains session affinity without additional session state storage.
+  - **Use**: Maintains session affinity without additional session state storage.
 
-  - **Distributed System Architecture**
+- **Distributed System Architecture**
 
-    - For scalability and resilience:
+  - For scalability and resilience:
 
-      - **Microservices Architecture**
+    - **Microservices Architecture**
 
-        - **Description**: Break down the application into independent microservices that communicate via APIs. Each microservice can be developed, deployed, and scaled independently.
+      - **Description**: Break down the application into independent microservices that communicate via APIs. Each microservice can be developed, deployed, and scaled independently.
 
-        - **Benefits**: Enhances scalability and allows for quick recovery from failures, as a failure in one microservice does not impact others.
+      - **Benefits**: Enhances scalability and allows for quick recovery from failures, as a failure in one microservice does not impact others.
 
-      - **Event-Driven Architecture**
+    - **Event-Driven Architecture**
 
-        - **Description**: Use events to trigger communication and processing between services. Systems respond to events asynchronously.
+      - **Description**: Use events to trigger communication and processing between services. Systems respond to events asynchronously.
 
-        - **Benefits**: Facilitates scalability as events can be processed by multiple consumers without direct communication.
+      - **Benefits**: Facilitates scalability as events can be processed by multiple consumers without direct communication.
 
-      - **Data Replication**
+    - **Data Replication**
 
-        - **Description**: Replicate data across multiple locations to ensure high availability and fault tolerance.
+      - **Description**: Replicate data across multiple locations to ensure high availability and fault tolerance.
 
-        - **Benefits**: Reduces latency and ensures continuous availability even in the event of a node or data center failure.
+      - **Benefits**: Reduces latency and ensures continuous availability even in the event of a node or data center failure.
 
 ## 🎯**Overall Goals and Benefits**
 
@@ -483,6 +483,6 @@
 
 4. **SRE and Scalability Management**
 
-  - **SRE**: Focus on reliability and performance management through SRE principles.
+- **SRE**: Focus on reliability and performance management through SRE principles.
 
-  - **Scalability and Costs**: Manage the impact of scalability on costs effectively.
+- **Scalability and Costs**: Manage the impact of scalability on costs effectively.
