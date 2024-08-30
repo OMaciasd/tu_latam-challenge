@@ -29,7 +29,7 @@ jobs:
 
       - name: Run tests
         run: |
-          pytest --cov=src tests/
+          pytest --integration --cov=src tests/
 
       - name: Lint code
         run: |
@@ -45,6 +45,9 @@ jobs:
 
       - name: Deploy to production
         run: |
-          # Aquí puedes agregar comandos para desplegar la aplicación
-          # Por ejemplo, utilizando SSH para desplegar en un servidor remoto
-          ssh user@server 'bash -s' < deploy.sh
+          ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} user@server << 'EOF'
+          cd /path/to/deployment
+          git pull origin main
+          EOF
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
