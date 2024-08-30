@@ -35,7 +35,7 @@ jobs:
 
       - name: Run tests
         run: |
-          pytest --cov=src tests/
+          pytest --cov=src ../tests/
 
       - name: Lint code
         run: |
