@@ -30,6 +30,8 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r src/requirements-dev.txt
+          ls tests/
+          pytest -v
 
       - name: Run tests
         run: |
