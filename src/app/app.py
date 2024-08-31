@@ -1,57 +1,27 @@
-from flask import Flask, jsonify
-from flask_sqlalchemy import SQLAlchemy
-from config.config import Config
-from utils.utils import get_db_connection
+from flask import Flask, request, jsonify
+from sqlalchemy import create_engine
+import pika
+import os
+from dotenv import load_dotenv
+
+load_dotenv()  # Cargar variables desde el archivo .env
 
 app = Flask(__name__)
-app.config.from_object(Config)
-db = SQLAlchemy(app)
 
+DATABASE_URL = os.getenv('DATABASE_URL')
+RABBITMQ_URL = os.getenv('RABBITMQ_URL')
 
-class UsCr(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
+engine = create_engine(DATABASE_URL)
 
-    def __repr__(self):
-        return f'<User {self.username}>'
-
-
-with app.app_context():
-    db.create_all()
+connection = pika.BlockingConnection(pika.URLParameters(RABBITMQ_URL))
+channel = connection.channel()
+channel.queue_declare(queue='data_queue')
 
 
 @app.route('/')
-def index():
-    return "Hello, Flask with PostgreSQL!"
+def homepage():
+    return "Hello, World!"
 
 
-@app.route('/test-db-connection', methods=['GET'])
-def test_db_connection():
-    try:
-        with db.engine.connect() as connection:
-            return jsonify({"message": "Database connection successful", "status": "success"})
-    except Exception as e:
-        return jsonify({"message": str(e), "status": "error"})
-
-
-@app.route('/data', methods=['GET'])
-def get_data():
-    try:
-        conn = get_db_connection()
-        cur = conn.cursor()
-        cur.execute('SELECT * FROM mytable;')
-        rows = cur.fetchall()
-        cur.close()
-        conn.close()
-
-        data = []
-        for row in rows:
-            data.append({"id": row[0], "name": row[1]})
-
-        return jsonify(data)
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=50010)
+if __name__ == '__main__':
+    app.run(debug=True)

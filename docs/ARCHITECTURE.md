@@ -61,9 +61,9 @@
 
   - However, I encountered persistent compatibility issues between **Terraform** and **Docker Desktop**, which hindered the effective setup and management of the infrastructure.
 
-![Terraform](./assets/images/terraform.png)
+![Terraform](./assets/images/infrastructure/terraform.png)
 
-![Scout](./assets/images/scout.png)
+![Scout](./assets/images/infrastructure/scout.png)
 
 - **Workaround with Vagrant**: To address these issues, I transitioned to using a based setup on a **Ubuntu** environment.
 
@@ -101,13 +101,13 @@
 
       - **Image Build**: The application is containerized, with a Dockerfile that defines the environment and dependencies.
 
-  ![Hub](./assets/images/hub.png)
+  ![Hub](./assets/images/infrastructure/hub.png)
 
       - **Environment Variables**: Keys are passed to the Docker container at runtime, based on Terraform outputs.
 
       - **Deployment Process**: The container is deployed to the target environment, ensuring consistency across development and production environments.
 
-  ![Docker](./assets/images/docker_desktop.png)
+  ![Docker](./assets/images/infrastructure/docker_desktop.png)
 
 ## ⚠️**Critical Points and Scaling**
 
@@ -172,9 +172,11 @@
 
     - It is published to specific topics in *RabbitMQ* where it is available for processing.
 
+  ![Rabbitmq](./assets/images/monitoring/rabbitmq.png)
+
   - **Data Integrity**: Messages are ensured to be processed in the order they are received, and duplicate messages are handled through idempotent processing to maintain data consistency.
 
-  2. **Data Processing and Storage**:
+  1. **Data Processing and Storage**:
 
      - **Data Processing**: After ingestion, the data is processed as needed before storage. This may include transformations or aggregations.
 
@@ -411,7 +413,11 @@
 
   - **Grafana**: For real-time metrics and dashboards.
 
+  ![Grafana](./assets/images/monitoring/grafana.png)
+
   - **Prometheus**: For collecting and querying time-series data.
+
+  ![Prometheus](./assets/images/monitoring/web.png)
 
   - **Loki**: For aggregating and visualizing logs with Grafana.
 
