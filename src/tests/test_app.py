@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import patch
-from app.app import app
+from app.app import app, create_rabbitmq_connection
 
 @pytest.fixture
 def client():
@@ -11,7 +11,6 @@ def client():
 @patch('app.app.create_rabbitmq_connection')
 def test_homepage(mock_create_rabbitmq_connection, client):
     """Test Web init with RabbitMQ connection mocked."""
-    # Mockea la conexión a RabbitMQ
     mock_create_rabbitmq_connection.return_value = (None, None)
     
     response = client.get('/')
