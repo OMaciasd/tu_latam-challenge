@@ -4,7 +4,7 @@ import pika
 import os
 from dotenv import load_dotenv
 
-load_dotenv()  # Cargar variables desde el archivo .env
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -13,15 +13,26 @@ RABBITMQ_URL = os.getenv('RABBITMQ_URL')
 
 engine = create_engine(DATABASE_URL)
 
-connection = pika.BlockingConnection(pika.URLParameters(RABBITMQ_URL))
-channel = connection.channel()
-channel.queue_declare(queue='data_queue')
+def create_rabbitmq_connection(url):
+    connection = pika.BlockingConnection(
+        pika.URLParameters(
+            url
+        )
+    )
+    channel = connection.channel()
+    channel.queue_declare(queue='data_queue')
+    return connection, channel
 
+if RABBITMQ_URL:
+    connection, channel = create_rabbitmq_connection(
+        RABBITMQ_URL
+    )
+else:
+    connection, channel = None, None
 
 @app.route('/')
 def homepage():
     return "Hello, World!"
-
 
 if __name__ == '__main__':
     app.run(debug=True)
