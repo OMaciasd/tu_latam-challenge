@@ -32,6 +32,7 @@ jobs:
 
       - name: Run tests
         run: |
+          cd $(pwd)/src
           pytest --cov=src tests/
 
       - name: Lint code
